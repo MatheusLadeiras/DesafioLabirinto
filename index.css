@@ -39,6 +39,18 @@ div[id="1024"] {
   margin: 5px;
 }
 
+header {
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+}
+
+header h1{
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
+}
+
 * {
   box-sizing: border-box;
 }

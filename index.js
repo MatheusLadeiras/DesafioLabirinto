@@ -214,6 +214,8 @@ function WilsonMazeGenerator() {
 
 //O último número sempre está fechado, tem que ajeitar
 
+//Muitas vezes não tem conexão de um lado pro outro
+ 
 
 
 //Quando um elemento está cercado de possibilidades que já foram visitadas ao invés de ir até lá e se juntar com oq já existe, ele 
