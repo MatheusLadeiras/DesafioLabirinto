@@ -2,25 +2,33 @@ let solution = [];
 let total, columns, rows;
 
 function BacktrackerMazeGenerator() {
+    console.log("Total:"+total);
+    console.log("Columns:"+columns);
+    console.log("Rows:"+rows);
     RestoreMaze();
     let stack = [1];
     let visited = [1];
     do {
         let possibilities = [];
         let [top, bot, right, left] = Array(4).fill(0);
-        if (stack[stack.length-1] > 32) {
-            top = stack[stack.length-1] - 32;
+        if (stack[stack.length-1] > rows) {
+            top = stack[stack.length-1] - rows;
             if(visited.includes(top) == false) {possibilities.push(top);}
         };
-        if (stack[stack.length-1] < 993) {
-            bot = stack[stack.length-1] + 32;
-            if(visited.includes(bot) == false) {possibilities.push(bot);}
+        if (stack[stack.length-1] < (total-rows+1)) {//aqui era 993, o objetivo sendo barrar a última fileira
+            bot = stack[stack.length-1] + rows;
+            if(visited.includes(bot) == false) {
+                possibilities.push(bot);
+                console.log("total:"+total-rows+1);
+                console.log("total:"+total);
+                console.log("rows:"+rows);
+            }
         };
-        if (stack[stack.length-1] % 32 !== 0) {
+        if (stack[stack.length-1] % rows !== 0) {
             right = stack[stack.length-1] + 1;
             if(visited.includes(right) == false) {possibilities.push(right);}
         };
-        if ((stack[stack.length-1] - 1) % 32 !== 0) {
+        if ((stack[stack.length-1] - 1) % rows !== 0) {
             left = stack[stack.length-1] - 1;
             if(visited.includes(left) == false) {possibilities.push(left);}
         };
@@ -28,6 +36,7 @@ function BacktrackerMazeGenerator() {
         if (possibilities.length != 0) {
             let nextStep = possibilities[Math.floor(Math.random()*possibilities.length)];
             console.log("possibilities:"+possibilities);
+            console.log("NextStep:"+nextStep);
             switch (nextStep) {
                 case top:
                     console.log("Top");
@@ -52,12 +61,12 @@ function BacktrackerMazeGenerator() {
             }
             stack.push(nextStep);
             visited.push(nextStep);
-            if(visited.includes(1024) != true) {
+            if(visited.includes(total) != true) {
                 solution.push(nextStep);
             }
         } else {
             let pop = stack.pop();
-            if(visited.includes(1024) != true) {
+            if(visited.includes(total) != true) {
                 solution.pop();
             }
         }
@@ -66,9 +75,9 @@ function BacktrackerMazeGenerator() {
 }
 
 function RestoreMaze() {
-    for(let i = 1; i < 1025; i++) {
+    for(let i = 1; i < total+1; i++) {
         document.getElementById(i).style.border="solid 2px";
-        if(i != 1 && i != 1024) {document.getElementById(i).style.background="rgba(255, 255, 255, 0.8)";}
+        if(i != 1 && i != total) {document.getElementById(i).style.background="rgba(255, 255, 255, 0.8)";}
     }
     solution = []; 
 }
@@ -83,11 +92,11 @@ function WilsonMazeGenerator() {
     RestoreMaze();
     let visited = [];
     let notVisited = [];
-    for(let i = 1; i < 1025; i++) {
+    for(let i = 1; i < (total+1); i++) {
         notVisited.push(i);
     }
     let randCell;
-    while (visited.length < 1024) {
+    while (visited.length < total) {
         console.log("Novo caminho");
         if(visited.length == 0) {
             randCell = notVisited[Math.floor(Math.random()*notVisited.length)];
@@ -102,19 +111,19 @@ function WilsonMazeGenerator() {
         do {
             let [top, bot, right, left] = Array(4).fill(0);
             possibilities = [];
-            if (path[path.length-1] > 32) {
-                top = path[path.length-1] - 32;
+            if (path[path.length-1] > rows) {
+                top = path[path.length-1] - rows;
                 possibilities.push(top);
             };
-            if (path[path.length-1] < 993) {
-                bot = path[path.length-1] + 32;
+            if (path[path.length-1] < (total-rows+1)) {
+                bot = path[path.length-1] + rows;
                 possibilities.push(bot);
             };
-            if (path[path.length-1] % 32 !== 0) {
+            if (path[path.length-1] % rows !== 0) {
                 right = path[path.length-1] + 1;
                 possibilities.push(right);
             };
-            if ((path[path.length-1] - 1) % 32 !== 0) {
+            if ((path[path.length-1] - 1) % rows !== 0) {
                 left = path[path.length-1] - 1;
                 possibilities.push(left);
             };
@@ -187,20 +196,6 @@ function WilsonMazeGenerator() {
     
 }
 
-
-//O último número sempre está fechado, tem que ajeitar
-
-//Muitas vezes não tem conexão de um lado pro outro
- 
-
-
-//Quando um elemento está cercado de possibilidades que já foram visitadas ao invés de ir até lá e se juntar com oq já existe, ele 
-//diz que a opção é inválida, gerando vezes em que não há nenhuma possibilidade existente 
-
-//Quando só sobra um elemento não visitado e esse é usado no start ele não sabe oq fazer com o último elemento
-
-//Todos os starts não mostram efeito algum, eles não são implementados no path provavelmente
-
 //Código adaptado de emkey08, https://jsfiddle.net/emkey08/zgvtjc51
 function setInputFilter(textbox, inputFilter, errMsg) {
     [ "input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout" ].forEach(function(event) {
@@ -257,9 +252,11 @@ function passRows (rows) {
 }
 */
 function ResizeMaze() {
-    let columns = document.getElementById("columns").value;
-    let rows = document.getElementById("rows").value;
-    let total = columns * rows;
+    columns = Number(document.getElementById("columns").value);
+    rows = Number(document.getElementById("rows").value);
+    /*columns = document.getElementById("columns").value;
+    rows = document.getElementById("rows").value;*/
+    total = columns * rows;
     let maze = document.getElementsByClassName("grid-container")[0];
     let size = '';
     for(i = 0; i < rows; i++) { size += 'auto ';}
