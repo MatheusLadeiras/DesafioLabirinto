@@ -1,8 +1,8 @@
 let solution = []; 
+let total, columns, rows;
 
 function BacktrackerMazeGenerator() {
     RestoreMaze();
-    /*let rand = Math.floor(Math.random() * 1024) + 1;*/
     let stack = [1];
     let visited = [1];
     do {
@@ -60,7 +60,6 @@ function BacktrackerMazeGenerator() {
             if(visited.includes(1024) != true) {
                 solution.pop();
             }
-            //console.log("Backtracking");
         }
     } while(stack.length != 0)
         console.log(solution);
@@ -134,11 +133,6 @@ function WilsonMazeGenerator() {
                     directions.push(4); break;
                 }
         } while (visited.includes(nextStep) == false) 
-        //Retirar start dos visitados caso ele tenha sido ignorado com o caminho chegando em outra ala do labirinto
-        /*if(path.includes(start) == false && notVisited.length != 0) {
-            visited.pop(start);
-            notVisited.push(start);
-        }*/
         //limpar o path
         for(let i = 0; i < path.length; i++) {
             let step = path[i];  
@@ -152,8 +146,6 @@ function WilsonMazeGenerator() {
         console.log("Filtered path: "+path);
         console.log("Filtered directions: "+directions);
         //Criar os caminhos
-
-        //Ver esse aqui, deve estar vendo errado os visited e not
         for(let i = 0; i < path.length-1; i++) {
             //console.log(i)
             let step = path[i]; 
@@ -208,3 +200,88 @@ function WilsonMazeGenerator() {
 //Quando só sobra um elemento não visitado e esse é usado no start ele não sabe oq fazer com o último elemento
 
 //Todos os starts não mostram efeito algum, eles não são implementados no path provavelmente
+
+//Código adaptado de emkey08, https://jsfiddle.net/emkey08/zgvtjc51
+function setInputFilter(textbox, inputFilter, errMsg) {
+    [ "input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop", "focusout" ].forEach(function(event) {
+      textbox.addEventListener(event, function(e) {
+        if (inputFilter(this.value)) {
+          // Accepted value.
+          if ([ "keydown", "mousedown", "focusout" ].indexOf(e.type) >= 0) {
+            this.classList.remove("input-error");
+            this.setCustomValidity("");
+          }
+          
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        }
+        else if (this.hasOwnProperty("oldValue")) {
+          // Rejected value: restore the previous one.
+          this.classList.add("input-error");
+          this.setCustomValidity(errMsg);
+          this.reportValidity();
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        }
+        else {
+          // Rejected value: nothing to restore.
+          this.value = "";
+        }
+      });
+    });
+  }
+
+for(i = 0; i < document.getElementsByClassName("MazeSize").length; i++) {
+    setInputFilter(document.getElementsByClassName("MazeSize")[i], function(value) {
+        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 32 && parseInt(value) >= 2);
+    }, "Must be between 2 and 32");
+}
+
+//Analisar depois a possibilidade de substituir sobre variáveis globais
+//https://blog.devgenius.io/passing-data-variable-between-functions-in-javascript-8a3a10abc169
+/*
+function passTotal (total) {
+    console.log("Total:"+total);
+    return total;
+}
+
+function passColumns (columns) {
+    console.log("Columns:"+columns);
+    return columns;
+}
+
+function passRows (rows) {
+    console.log("Rows:"+rows);
+    return rows;
+}
+*/
+function ResizeMaze() {
+    let columns = document.getElementById("columns").value;
+    let rows = document.getElementById("rows").value;
+    let total = columns * rows;
+    let maze = document.getElementsByClassName("grid-container")[0];
+    let size = '';
+    for(i = 0; i < rows; i++) { size += 'auto ';}
+    console.log("size: "+size);
+    maze.style.gridTemplateColumns = size;
+    maze.innerHTML = '';
+    for(i = 0; i < total; i++) {
+        maze.innerHTML += '<div class="grid-item" id="'+(i+1)+'">'+(i+1)+'</div>';
+    }
+    /*
+    passTotal(total);
+    passColumns(columns);
+    passRows(rows);*/
+    console.log("Total:"+total);
+    console.log("Columns:"+columns);
+    console.log("Rows:"+rows);
+}
+
+var element = document.createElement("div");
+element.appendChild(document.createTextNode('The man who mistook his wife for a hat'));
+document.getElementById('lc').appendChild(element);
+
+let cell = document.createElement("div");
+cell.appendChild(document.createTextNode('The man who mistook his wife for a hat'));//'<div class="grid-item" id="">'(i+1)'</div>'
+document.getElementById("grid-container").appendChild(cell);

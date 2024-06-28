@@ -1,4 +1,4 @@
-// node app.js
+// node app.js em desafioLabirinto
 const express = require('express')
   const app = express()
   const port = 3000

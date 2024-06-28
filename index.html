@@ -8,13 +8,14 @@
     <link rel="icon" type="image/x-icon" href="faviconMaze.jpg">
 </head>
 
-<body>
+<body onload="ResizeMaze()">
   <header>
+    <div class="loader"></div>
     <h1>Maze "Builder" 3000</h1>
-    <h3>Breaking walls in the complicated path of life</h3>
+    <h2>Breaking walls in the complicated path of life</h2>
   </header>
     <div class="grid-container">
-        <div class="grid-item" id="1">1</div>
+        <!--<div class="grid-item" id="1">1</div>
         <div class="grid-item" id="2">2</div>
         <div class="grid-item" id="3">3</div>
         <div class="grid-item" id="4">4</div>
@@ -1037,7 +1038,7 @@
         <div class="grid-item" id="1021">1021</div>
         <div class="grid-item" id="1022">1022</div>
         <div class="grid-item" id="1023">1023</div>
-        <div class="grid-item" id="1024">1024</div>      
+        <div class="grid-item" id="1024">1024</div>   -->   
       </div>
 
       <div class="Actions">
@@ -1050,10 +1051,19 @@
         <button onclick="RestoreMaze()" > 
           RestoreMaze
       </button>
-      <button onclick="SolutionShowcase()()" > 
+      <button onclick="SolutionShowcase()" > 
         Solution Showcase
     </button>
     </div>
+    <div class="Actions">
+      <label>Columns:</label>
+      <input type="number" class="MazeSize" id="columns" value="16">
+      <label>Rows:</label>
+      <input type="number" class="MazeSize" id="rows" value="16">
+      <button onclick="ResizeMaze() "> 
+        Resize Maze
+      </button>
+  </div>
 </body>
 <script src="index.js"></script>
 </html>
