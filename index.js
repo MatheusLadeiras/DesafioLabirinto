@@ -2,9 +2,6 @@ let solution = [];
 let total, columns, rows;
 
 function BacktrackerMazeGenerator() {
-    console.log("Total:"+total);
-    console.log("Columns:"+columns);
-    console.log("Rows:"+rows);
     RestoreMaze();
     let stack = [1];
     let visited = [1];
@@ -15,13 +12,10 @@ function BacktrackerMazeGenerator() {
             top = stack[stack.length-1] - rows;
             if(visited.includes(top) == false) {possibilities.push(top);}
         };
-        if (stack[stack.length-1] < (total-rows+1)) {//aqui era 993, o objetivo sendo barrar a última fileira
+        if (stack[stack.length-1] < (total-rows+1)) {
             bot = stack[stack.length-1] + rows;
             if(visited.includes(bot) == false) {
                 possibilities.push(bot);
-                console.log("total:"+total-rows+1);
-                console.log("total:"+total);
-                console.log("rows:"+rows);
             }
         };
         if (stack[stack.length-1] % rows !== 0) {
@@ -192,8 +186,55 @@ function WilsonMazeGenerator() {
         }
     console.log(visited);
     console.log(notVisited.length);
-    }
-    
+    } 
+    WilsonMazeSolution();
+    console.log(solution);
+}
+
+function WilsonMazeSolution() {
+    let stack = [1];
+    let visited = [1];
+    do {
+        //Está funcionando mas ele dá pop e fica null o primeiro elemento
+        //Ou estava ignorando a segunda regra, com &&, a segunda regra nunca funciona
+        console.log(stack[stack.length-1]);
+        let possibilities = [];
+        let [top, bot, right, left] = Array(4).fill(0);    
+        if (stack[stack.length-1] > rows) {
+            top = stack[stack.length-1] - rows;
+            if(visited.includes(top) == false && document.getElementById(stack[stack.length-1]).style.borderTop == "0px") {possibilities.push(top);}
+        };
+        if (stack[stack.length-1] < (total-rows+1)) {
+            bot = stack[stack.length-1] + rows;
+            if(visited.includes(bot) == false && document.getElementById(stack[stack.length-1]).style.borderBottom == "0px") { possibilities.push(bot); }
+        };
+        if (stack[stack.length-1] % rows !== 0) {
+            right = stack[stack.length-1] + 1;
+            if(visited.includes(right) == false && document.getElementById(stack[stack.length-1]).style.borderRight == "0px") {possibilities.push(right);}
+        };
+        if ((stack[stack.length-1] - 1) % rows !== 0) {
+            left = stack[stack.length-1] - 1;
+            if(visited.includes(left) == false && document.getElementById(stack[stack.length-1]).style.borderLeft == "0px") {possibilities.push(left);}
+        };
+        console.log(possibilities);
+        if (possibilities.length != 0) {
+            let nextStep = possibilities[Math.floor(Math.random()*possibilities.length)];
+            console.log("possibilities:"+possibilities);
+            console.log("NextStep:"+nextStep);
+            stack.push(nextStep);
+            visited.push(nextStep);
+            //solution.push(nextStep);
+            if(visited.includes(total) != true) {
+                solution.push(nextStep);
+            }
+        } else {
+            let pop = stack.pop();
+            //solution.pop();
+            if(visited.includes(total) != true) {
+                solution.pop();
+            }
+        }
+    } while(!stack.includes(total))
 }
 
 //Código adaptado de emkey08, https://jsfiddle.net/emkey08/zgvtjc51
@@ -229,8 +270,8 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 
 for(i = 0; i < document.getElementsByClassName("MazeSize").length; i++) {
     setInputFilter(document.getElementsByClassName("MazeSize")[i], function(value) {
-        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 32 && parseInt(value) >= 2);
-    }, "Must be between 2 and 32");
+        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 32 && parseInt(value) >= 3);
+    }, "Must be between 3 and 32");
 }
 
 //Analisar depois a possibilidade de substituir sobre variáveis globais
@@ -263,9 +304,14 @@ function ResizeMaze() {
     console.log("size: "+size);
     maze.style.gridTemplateColumns = size;
     maze.innerHTML = '';
+    /*
     for(i = 0; i < total; i++) {
         maze.innerHTML += '<div class="grid-item" id="'+(i+1)+'">'+(i+1)+'</div>';
+    }*/
+    for(i = 1; i < total; i++) {
+        maze.innerHTML += '<div class="grid-item" id="'+(i)+'">'+(i)+'</div>';
     }
+    maze.innerHTML += '<div class="grid-item last" id="'+(total)+'">'+(total)+'</div>';
     /*
     passTotal(total);
     passColumns(columns);
@@ -274,11 +320,3 @@ function ResizeMaze() {
     console.log("Columns:"+columns);
     console.log("Rows:"+rows);
 }
-
-var element = document.createElement("div");
-element.appendChild(document.createTextNode('The man who mistook his wife for a hat'));
-document.getElementById('lc').appendChild(element);
-
-let cell = document.createElement("div");
-cell.appendChild(document.createTextNode('The man who mistook his wife for a hat'));//'<div class="grid-item" id="">'(i+1)'</div>'
-document.getElementById("grid-container").appendChild(cell);
