@@ -270,8 +270,8 @@ function setInputFilter(textbox, inputFilter, errMsg) {
 
 for(i = 0; i < document.getElementsByClassName("MazeSize").length; i++) {
     setInputFilter(document.getElementsByClassName("MazeSize")[i], function(value) {
-        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 32 && parseInt(value) >= 3);
-    }, "Must be between 3 and 32");
+        return /^\d*$/.test(value) && (value === "" || parseInt(value) <= 64 && parseInt(value) >= 3);
+    }, "Must be between 3 and 64");
 }
 
 //Analisar depois a possibilidade de substituir sobre variáveis globais
@@ -302,21 +302,33 @@ function ResizeMaze() {
     let size = '';
     for(i = 0; i < rows; i++) { size += 'auto ';}
     console.log("size: "+size);
-    maze.style.gridTemplateColumns = size;
+    maze.style.gridTemplateColumns = size; //Fala o número de cells por fileira
     maze.innerHTML = '';
+
+    //Old innerHTML version, its here for showcase, it sucks.
     /*
-    for(i = 0; i < total; i++) {
-        maze.innerHTML += '<div class="grid-item" id="'+(i+1)+'">'+(i+1)+'</div>';
-    }*/
     for(i = 1; i < total; i++) {
         maze.innerHTML += '<div class="grid-item" id="'+(i)+'">'+(i)+'</div>';
     }
     maze.innerHTML += '<div class="grid-item last" id="'+(total)+'">'+(total)+'</div>';
+    */
+
+    //Append child version:
+    for(i = 1; i < total; i++) {
+        const cell = document.createElement("div");
+        cell.setAttribute("class", "grid-item");
+        cell.setAttribute("id", i);
+        maze.appendChild(cell);
+    }
+    const cell = document.createElement("div");
+    cell.setAttribute("id", total);
+    cell.setAttribute("class", "grid-item last");
+    maze.appendChild(cell);
+
+    //Criar uma versão melhor com "removeChild()" que coloca ou retira cells para chegar no novo número com o menor esforço
+
     /*
-    passTotal(total);
-    passColumns(columns);
-    passRows(rows);*/
     console.log("Total:"+total);
     console.log("Columns:"+columns);
-    console.log("Rows:"+rows);
+    console.log("Rows:"+rows);*/
 }
