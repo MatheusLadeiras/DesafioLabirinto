@@ -292,6 +292,7 @@ function passRows (rows) {
     return rows;
 }
 */
+
 function ResizeMaze() {
     columns = Number(document.getElementById("columns").value);
     rows = Number(document.getElementById("rows").value);
@@ -323,6 +324,7 @@ function ResizeMaze() {
     const cell = document.createElement("div");
     cell.setAttribute("id", total);
     cell.setAttribute("class", "grid-item last");
+    document.getElementById(1).setAttribute("class", "first grid-item")
     maze.appendChild(cell);
 
     //Criar uma versão melhor com "removeChild()" que coloca ou retira cells para chegar no novo número com o menor esforço
@@ -331,4 +333,53 @@ function ResizeMaze() {
     console.log("Total:"+total);
     console.log("Columns:"+columns);
     console.log("Rows:"+rows);*/
+}
+
+function Disco() {
+    let body = document.getElementById("animation"); //id
+    body.setAttribute("class", "FadeToBlack"); //create class, destroy class later
+    setTimeout(()=> {
+        var audio = document.getElementById("audio"); 
+        audio.play();
+        let luzes = setInterval(()=> {
+            lightsChange();
+        }
+        ,200);
+
+        setTimeout(()=> {
+            clearInterval(luzes);
+            lightsOut();
+        }
+        ,15000);
+        
+        setTimeout(()=> {
+            body.removeAttribute("class", "FadeToBlack");//Need to be removed after it comes back normally
+        }
+        ,22000);
+    }
+    ,3000);
+}
+
+//Apagar os botões, transformar a bolinha do loader em preta tb, ou mais fácil ainda, só esconder o loader, usar o hidden e devolver no lights out
+function lightsChange() {
+    document.getElementsByClassName("Actions")[0].style.visibility='hidden';
+    document.getElementsByClassName("Actions")[1].style.visibility='hidden';
+    document.getElementsByClassName("loader")[0].style.visibility='hidden';
+    let colors = ['red', 'blue', 'green', 'yellow', 'pink', 'purple', 'orange'];
+    for (i = 1; i < total+1; i++){
+        let square = colors[Math.floor(Math.random()*colors.length)];
+        document.getElementById(i).setAttribute("class", "grid-item "+square);
+    }
+}
+
+function lightsOut() {
+    document.getElementsByClassName("Actions")[0].style.visibility='visible';
+    document.getElementsByClassName("Actions")[1].style.visibility='visible';
+    document.getElementsByClassName("loader")[0].style.visibility='visible';
+
+    document.getElementById(1).setAttribute("class", "first grid-item");
+    for (i = 2; i < total; i++){
+        document.getElementById(i).setAttribute("class", "grid-item");
+    }
+    document.getElementById(total).setAttribute("class", "last grid-item");
 }
