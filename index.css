@@ -14,8 +14,8 @@
   background-color: rgba(255, 255, 255, 0.8);
   font-size: 10px;
   text-align: center;
-  height: 25px;
-  width: 25px;
+  height: 30px;
+  width: 30px;
   border: 2px solid rgba(0, 0, 0, 0.8);
 }
 /*
@@ -30,22 +30,52 @@ height: 15px;
 width: 15px;
   */
 
-/*
-div[id="1"] {
-  background-color: rgb(255, 255, 255);
-}*/
-
+  /*Crop or not?*/
+  /*Images size are changing with the maze, find a fix even if it is to put heigth and width in px*/
 .first {
   background-color: rgb(255, 255, 255);
+  background: rgb(255, 255, 255, 0.8) no-repeat;
+  background-size:contain;
+  background-image: url(start_cropped_image.png);
+  background-position: center center;
 }
 
 
-/*div[id="1024"] {
+.last { 
   background-color: rgb(0, 0, 0);
-}*/
+  background: rgb(255, 255, 255, 0.8) no-repeat;
+  background-size:contain;
+  background-image: url(goal_cropped_image.png);
+  background-position: center center;
+}
 
-.last {
-  background-color: rgb(0, 0, 0);
+.solution {
+  background-color: blue;
+}
+
+/*Real one in .first, appear with the solution showcase and hide with it, will be fine with the button mish mash
+create the element in the solution showcase is best, just transfer from resize maze to the showcase
+[id="2"]*/
+#motion-demo {
+  /*offset-path: path("M13,13 13,42.5 42.5,42.5 42.5,73 73,73 73,42.5 "); /*Original: path("M13,20 C20,100 200,0 200,100");*/
+  /*M13,13 seems to put it in the middle of the cell. O formato são dos eixos X e Y*/
+  animation: move 17000ms infinite ease-in-out; /*No alternate*/
+  width: 40px;
+  height: 40px;
+  height: 25px;
+  width: 25px;
+  background: no-repeat;
+  background-image: url(cropped_Arrow.png);
+  background-size: contain;
+}
+
+@keyframes move {
+  0% {
+    offset-distance: 0%;
+  }
+  100% {
+    offset-distance: 100%;
+  }
 }
 
 .Actions {
@@ -130,11 +160,11 @@ body {
 
 .FadeToBlack {
   animation-name: FadeToBlack;
-  animation-duration: 23s;/*23*/
+  animation-duration: 23s;
   /*animation-delay: 2s;*/
 }
 
-@keyframes FadeToBlack { /*15s é 60%*/
+@keyframes FadeToBlack { 
   0% {background-color: white;}
   15% {background-color: black;}
   75% {background-color: black;}

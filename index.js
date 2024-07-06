@@ -69,16 +69,57 @@ function BacktrackerMazeGenerator() {
 }
 
 function RestoreMaze() {
+    SolutionClear();
     for(let i = 1; i < total+1; i++) {
         document.getElementById(i).style.border="solid 2px";
-        if(i != 1 && i != total) {document.getElementById(i).style.background="rgba(255, 255, 255, 0.8)";}
+        //if(i != 1 && i != total) {document.getElementById(i).style.background="rgba(255, 255, 255, 0.8)";}
     }
     solution = []; 
 }
 
 function SolutionShowcase() {
     for(i = 0; i < solution.length; i++) {
-        document.getElementById(solution[i]).style.background="blue";
+        document.getElementById(solution[i]).setAttribute("class", "grid-item solution")
+    }
+    let arrowPath = "M13,13 "
+    let x = 13; let y = 13;
+    for(i = 0; i < solution.length+1; i++) {
+        let dif;
+        if(i == 0) {
+            dif = solution[i] - 1;
+        } else if(i == solution.length) {
+            dif = total - solution[i-1];
+        } else {
+            dif = solution[i] - solution[i-1];
+        }
+        console.log(solution[i] - 1);
+        console.log(dif);
+        switch(dif) {
+            case 1: x += 30;
+                break;
+            case rows: y += 30;
+                break;
+            case -1: x -= 30;
+                break;
+            case -rows: y -= 30;
+                break;
+            default:
+                a = console.log("Deu ruim");
+                return a;
+                break;
+        }
+        arrowPath += x+","+y+" ";
+    }
+    console.log(arrowPath);
+    document.getElementById("motion-demo").style.offsetPath = "path('"+arrowPath+"')";
+    //document.getElementById("motion-demo").style.offsetPath = 'path("M13,13 13,42.5 42.5,42.5")';
+}
+
+
+
+function SolutionClear() {
+    for(i = 0; i < solution.length; i++) {
+        document.getElementById(solution[i]).setAttribute("class", "grid-item");
     }
 }
 
@@ -306,7 +347,7 @@ function ResizeMaze() {
     maze.style.gridTemplateColumns = size; //Fala o número de cells por fileira
     maze.innerHTML = '';
 
-    //Old innerHTML version, its here for showcase, it sucks.
+    //Old innerHTML version, its here to showcase how slow it was, it sucks.
     /*
     for(i = 1; i < total; i++) {
         maze.innerHTML += '<div class="grid-item" id="'+(i)+'">'+(i)+'</div>';
@@ -324,7 +365,14 @@ function ResizeMaze() {
     const cell = document.createElement("div");
     cell.setAttribute("id", total);
     cell.setAttribute("class", "grid-item last");
-    document.getElementById(1).setAttribute("class", "first grid-item")
+    document.getElementById(1).setAttribute("class", "first grid-item");
+
+    /*Solution arrow, make append child be created in the solution showcase */
+    var arrow = document.createElement("div");
+    arrow.setAttribute("id", "motion-demo");
+    /*arrow.appendChild(document.createTextNode('<div id="motion-demo"></div>'));*/
+    document.getElementById(1).appendChild(arrow);
+    
     maze.appendChild(cell);
 
     //Criar uma versão melhor com "removeChild()" que coloca ou retira cells para chegar no novo número com o menor esforço
@@ -335,6 +383,7 @@ function ResizeMaze() {
     console.log("Rows:"+rows);*/
 }
 
+/*To look good the buttons appear before fade to black goes away, if Disco is pressed fast enought, it will break the fade to black*/
 function Disco() {
     let body = document.getElementById("animation"); //id
     body.setAttribute("class", "FadeToBlack"); //create class, destroy class later
@@ -355,12 +404,11 @@ function Disco() {
         setTimeout(()=> {
             body.removeAttribute("class", "FadeToBlack");//Need to be removed after it comes back normally
         }
-        ,22000);
+        ,22000); 
     }
     ,3000);
 }
 
-//Apagar os botões, transformar a bolinha do loader em preta tb, ou mais fácil ainda, só esconder o loader, usar o hidden e devolver no lights out
 function lightsChange() {
     document.getElementsByClassName("Actions")[0].style.visibility='hidden';
     document.getElementsByClassName("Actions")[1].style.visibility='hidden';
@@ -376,7 +424,6 @@ function lightsOut() {
     document.getElementsByClassName("Actions")[0].style.visibility='visible';
     document.getElementsByClassName("Actions")[1].style.visibility='visible';
     document.getElementsByClassName("loader")[0].style.visibility='visible';
-
     document.getElementById(1).setAttribute("class", "first grid-item");
     for (i = 2; i < total; i++){
         document.getElementById(i).setAttribute("class", "grid-item");

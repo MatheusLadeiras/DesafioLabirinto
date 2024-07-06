@@ -10,6 +10,12 @@
 
 <body id="animation" onload="ResizeMaze()">
   <header>
+    <!--
+    <img src="png-transparent-circle-drawing-circle-wikimedia-commons-black-shape-thumbnail.png" alt="">
+    <img src="cropped_Arrow.png" alt="">
+    <img src="cropped_empty_circle.png" alt="">
+    -->
+    <p></p>
     <div class="loader"></div>
     <h1>Maze "Builder" 3000</h1>
     <h2>Breaking walls in the complicated path of life</h2>
@@ -22,16 +28,19 @@
         <button onclick="WilsonMazeGenerator()" > 
           Wilson's algorithm Maze
       </button>
-        <button onclick="RestoreMaze()" > 
-          RestoreMaze
-      </button>
-      <button onclick="SolutionShowcase()" > 
-        Solution Showcase
-      </button>
       <button onclick="Disco()" > 
         The disco button 
       </button>
       <audio id="audio" src="funky_15secCut.mp3"></audio> <!--Cut from https://pixabay.com/music/funk-funky-30sec-187357/-->
+        <button onclick="RestoreMaze()" > 
+          Restore Maze
+      </button>
+      <button id="ShowSolution" onclick="SolutionShowcase()" > 
+        Solution Showcase
+      </button>
+      <button id="HideSolution" onclick="SolutionClear()"> 
+        Hide Solution 
+      </button>
     </div>
     <div class="Actions">
       <label>Columns:</label>
