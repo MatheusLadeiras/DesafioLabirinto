@@ -81,6 +81,9 @@ function SolutionShowcase() {
     for(i = 0; i < solution.length; i++) {
         document.getElementById(solution[i]).setAttribute("class", "grid-item solution")
     }
+    var arrow = document.createElement("div");
+    arrow.setAttribute("id", "motion-demo");
+    document.getElementById(1).appendChild(arrow);
     let arrowPath = "M13,13 "
     let x = 13; let y = 13;
     for(i = 0; i < solution.length+1; i++) {
@@ -115,12 +118,19 @@ function SolutionShowcase() {
     //document.getElementById("motion-demo").style.offsetPath = 'path("M13,13 13,42.5 42.5,42.5")';
 }
 
-
-
 function SolutionClear() {
     for(i = 0; i < solution.length; i++) {
         document.getElementById(solution[i]).setAttribute("class", "grid-item");
     }
+    /*
+    arrow = document.getElementById("motion-demo");
+    if (arrow !== null) {
+        document.getElementById(1).remove(arrow);
+    }*/
+    if (document.contains(document.getElementById("motion-demo"))) {
+        document.getElementById("motion-demo").remove();
+    }    
+    
 }
 
 function WilsonMazeGenerator() {
@@ -368,11 +378,6 @@ function ResizeMaze() {
     document.getElementById(1).setAttribute("class", "first grid-item");
 
     /*Solution arrow, make append child be created in the solution showcase */
-    var arrow = document.createElement("div");
-    arrow.setAttribute("id", "motion-demo");
-    /*arrow.appendChild(document.createTextNode('<div id="motion-demo"></div>'));*/
-    document.getElementById(1).appendChild(arrow);
-    
     maze.appendChild(cell);
 
     //Criar uma versão melhor com "removeChild()" que coloca ou retira cells para chegar no novo número com o menor esforço

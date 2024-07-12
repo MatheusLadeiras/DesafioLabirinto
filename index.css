@@ -59,7 +59,7 @@ create the element in the solution showcase is best, just transfer from resize m
 #motion-demo {
   /*offset-path: path("M13,13 13,42.5 42.5,42.5 42.5,73 73,73 73,42.5 "); /*Original: path("M13,20 C20,100 200,0 200,100");*/
   /*M13,13 seems to put it in the middle of the cell. O formato são dos eixos X e Y*/
-  animation: move 10000ms infinite linear ; /*No alternate*/
+  animation: move 10s infinite linear ; /*10000ms*/
   width: 40px;
   height: 40px;
   height: 25px;
