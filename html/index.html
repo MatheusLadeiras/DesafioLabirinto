@@ -4,9 +4,11 @@
 <head>
     <meta charset="UTF-8"/>
     <title> Maze generator </title>
-    <link rel="stylesheet" type="text/css" href="../css/index.css">
-    <link rel="icon" type="image/x-icon" href="../media/faviconMaze.jpg">
-</head>
+    <link rel="stylesheet" type="text/css" href="../css/index.css"> <!--Tag Original-->
+    <link rel="stylesheet" type="text/css" href="/css"> <!--Tag do app.js-->
+    <!-- <link rel="icon" type="image/x-icon" href="../media/faviconMaze.jpg"> <!--Tag Original-->
+    <link rel="icon" type="image/x-icon" href="/media/faviconMaze.jpg"> <!--Tag do app.js-->
+</head> 
 
 <body id="animation" onload="ResizeMaze()">
   <header>
@@ -31,7 +33,8 @@
       <button onclick="Disco()" > 
         The disco button 
       </button>
-      <audio id="audio" src="../media/funky_15secCut.mp3"></audio> <!--Cut from https://pixabay.com/music/funk-funky-30sec-187357/-->
+      <audio id="audio" src="/media/funky_15secCut.mp3"></audio> <!--Cut from https://pixabay.com/music/funk-funky-30sec-187357/-->
+      <!--Src original: src="../media/funky_15secCut.mp3"-->
         <button onclick="RestoreMaze()" > 
           Restore Maze
       </button>
@@ -52,5 +55,6 @@
       </button>
   </div>
 </body>
-<script type="text/javascript" src="../js/index.js"></script>
+<script type="text/javascript" src="../js/index.js"></script> <!--Tag Original-->
+<script type="text/javascript" src="/js"></script> <!--Tag do app.js-->
 </html>

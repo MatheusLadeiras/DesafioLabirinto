@@ -37,6 +37,7 @@ width: 15px;
   background: rgb(255, 255, 255, 0.8) no-repeat;
   background-size:contain;
   background-image: url(../media/start_cropped_image.png);
+  background-image: url(/media/start_cropped_image.png); /*Tag do app.js*/
   background-position: center center;
 }
 
@@ -46,6 +47,7 @@ width: 15px;
   background: rgb(255, 255, 255, 0.8) no-repeat;
   background-size:contain;
   background-image: url(../media/goal_cropped_image.png);
+  background-image: url(/media/goal_cropped_image.png); /*Tag do app.js*/
   background-position: center center;
 }
 
@@ -66,6 +68,7 @@ create the element in the solution showcase is best, just transfer from resize m
   width: 25px;
   background: no-repeat;
   background-image: url(../media/cropped_Arrow.png);
+  background-image: url(/media/cropped_Arrow.png); /*Tag do app.js*/
   background-size: contain;
 }
 
